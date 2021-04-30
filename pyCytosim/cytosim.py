@@ -295,16 +295,15 @@ class CytosimPlaySubprocessFactory:
   Cytosim Subprocess Factory
   """
   def __init__(self, future, channel, simdir, frames, tdir):
-    self._cmd_play = os.path.expandvars('$CYTOSIMBINPATH/play')
+    self._cmd_play = 'play'
     if os.path.isfile(self._cmd_play) and os.access(self._cmd_play, os.X_OK):
       pass
     else:
-      self._cmd_play = os.path.expandvars('${HOME}/.${DISTRIB_CODENAME}/bin/play')
-
-    if os.path.isfile(self._cmd_play) and os.access(self._cmd_play, os.X_OK):
-      pass
-    else:
-      raise RuntimeError("play executable not found")
+      self._cmd_play = os.path.expandvars('$CYTOSIMBINPATH/play')
+      if os.path.isfile(self._cmd_play) and os.access(self._cmd_play, os.X_OK):
+        pass
+      else:
+        raise RuntimeError("play executable not found")
 
     self._future = future
     self._channel = channel

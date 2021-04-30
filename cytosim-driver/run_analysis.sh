@@ -5,6 +5,26 @@ if [ $# -lt 1 ]; then
   exit 1
 fi
 
+# check if cytosim is on the path
+if [ -n "$CYTOSIM_PATH" ]; then
+  [ -z "$CYTOSIM_PATH" ] &&  CYTOSIM_PATH=${HOME}/.\${DISTRIB_CODENAME}/bin
+  TEST_CYTOSIM_PATH=$(eval "echo $CYTOSIM_PATH")
+  for s in sim report play; do
+    if [ ! -e "$TEST_CYTOSIM_PATH/$s" -o ! -x "$TEST_CYTOSIM_PATH/$s" ]; then
+      echo "invalid cytosim path '$TEST_CYTOSIM_PATH': one of the executables ($s) is missing or the executable bit is not set";
+      exit 1;
+    fi
+  done
+else
+  for s in sim report play; do
+    if [ -z "$(command -v $s)" ]; then
+      echo "cytosim is not on the path. Trying to load via 'module load cytosim'";
+      module load cytosim #|| exit 1
+      break
+    fi
+  done
+fi
+
 [ -n "${CYM_STATS}" ] && CYM_STATS_ESC=$(echo "$CYM_STATS" | tr ',' '-')
 #[ -z "${CYM_STATS}" ] && { echo "No operation is set. Exiting"; exit 1; }
 [ -z "${CYM_CHANNELS}" ] || exit 1

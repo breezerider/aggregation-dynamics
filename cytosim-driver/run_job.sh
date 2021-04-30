@@ -829,7 +829,7 @@ tmp=`mktemp`
 JOBID_LOG=${JOBID_DIR}/$(date +"%d-%m-%Y")_${CYM_CONFNAME}.log
 
 cat >$tmp <<EOF
-#!/bin/sh
+#!/bin/bash
 #SBATCH --job-name=${CYM_CONFNAME}_${JOB_NAME}
 #SBATCH --output=${SLURM_LOGS}/${CYM_CONFNAME}_${JOB_NAME}${SBATCH_OUTPUT_SUFFIX}.out
 #SBATCH --error=${SLURM_LOGS}/${CYM_CONFNAME}_${JOB_NAME}${SBATCH_OUTPUT_SUFFIX}.err
